@@ -1,4 +1,4 @@
-package pl.kalghor.weather.dto;
+package pl.kalghor.weather.model.dto;
 
 public class WeatherDto {
 }
