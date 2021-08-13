@@ -1,2 +1,7 @@
-package pl.kalghor.weather.service;public class WeatherService {
+package pl.kalghor.weather.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class WeatherService {
 }
