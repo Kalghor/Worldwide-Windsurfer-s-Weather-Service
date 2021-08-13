@@ -1,2 +1,7 @@
-package pl.kalghor.weather.client;public class WeatherClient {
+package pl.kalghor.weather.client;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class WeatherClient {
 }
