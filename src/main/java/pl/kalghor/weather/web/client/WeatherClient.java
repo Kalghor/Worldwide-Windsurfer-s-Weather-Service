@@ -19,9 +19,14 @@ public class WeatherClient {
 
     public Set<WeatherDto> getWeatherForCities(Set<City> cities) {
         Set<WeatherDto> forecasts = new HashSet<>();
-        for(City c : cities){
-            WeatherDto dto = restTemplate.getForObject(URL + "daily?city={city}}&key={API_KEY}", WeatherDto.class, c.name, API_KEY);
-            forecasts.add(dto);
+        for (City c : cities) {
+            if (c.name.contains(" ")) {
+                WeatherDto dto = restTemplate.getForObject(URL + "daily?&lat={lat}&lon={lon}&key={API_KEY}", WeatherDto.class, c.latitude, c.longitude, API_KEY);
+                forecasts.add(dto);
+            } else {
+                WeatherDto dto = restTemplate.getForObject(URL + "daily?city={city}&key={API_KEY}", WeatherDto.class, c.name, API_KEY);
+                forecasts.add(dto);
+            }
         }
         return forecasts;
     }
