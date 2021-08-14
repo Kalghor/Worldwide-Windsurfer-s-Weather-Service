@@ -1,12 +1,13 @@
-package pl.kalghor.weather.model.dto;
+package pl.kalghor.weather.web.dto;
 
 import lombok.*;
 
-@Getter @Setter @ToString
+@Getter
 @NoArgsConstructor @AllArgsConstructor
 public class DataDto {
 
-    public String temp;
-    public String wind_spd;
+    public double temp;
+    public double wind_spd;
+    public String valid_date;
 
 }
