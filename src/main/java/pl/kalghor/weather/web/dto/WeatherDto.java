@@ -1,16 +1,14 @@
-package pl.kalghor.weather.model.dto;
+package pl.kalghor.weather.web.dto;
 
 import lombok.*;
 
 import java.util.List;
-import java.util.Map;
 
-@Getter @Setter @ToString
+@Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class WeatherDto {
 
-    public String city_name;
-    public List<DataDto> data;
-//    public DataDto data;
+    private String city_name;
+    private List<DataDto> data;
 
 }
