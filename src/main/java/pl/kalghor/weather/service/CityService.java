@@ -22,4 +22,8 @@ public class CityService {
         return cities;
     }
 
+    public void addCity(City city){
+        cityRepository.save(city);
+    }
+
 }
