@@ -6,9 +6,9 @@ import lombok.*;
 @NoArgsConstructor @AllArgsConstructor
 public class Weather {
 
-    private String city_name;
+    private String cityName;
     private double temp;
-    private double wind_spd;
+    private double windSpd;
     private String date;
 
 }

@@ -1,10 +1,10 @@
 package pl.kalghor.weather.controller;
 
 import org.springframework.web.bind.annotation.*;
-import pl.kalghor.weather.model.City;
 import pl.kalghor.weather.model.Weather;
 import pl.kalghor.weather.service.CityService;
 import pl.kalghor.weather.service.WeatherService;
+import pl.kalghor.weather.integration.weatherbit.client.CityClient;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,10 +15,12 @@ public class WeatherController {
 
     private WeatherService weatherService;
     private CityService cityService;
+    private CityClient cityClient;
 
-    public WeatherController(WeatherService weatherService, CityService cityService) {
+    public WeatherController(WeatherService weatherService, CityService cityService, CityClient client) {
         this.weatherService = weatherService;
         this.cityService = cityService;
+        this.cityClient = client;
     }
 
 
@@ -29,14 +31,14 @@ public class WeatherController {
 
     @GetMapping("/{date}")
     public Weather getCityWithBestWeatherConditions(@PathVariable String date) {
-        LocalDate day = LocalDate.parse(date);
-        LocalDate formattedDate = LocalDate.parse(day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        final var day = LocalDate.parse(date);
+        final var formattedDate = LocalDate.parse(day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         return weatherService.getBestWeatherToday(cityService.getCities(), formattedDate);
     }
 
-    @GetMapping("/addCity/{cityName}/{latitude}/{longitude}")
-    public void addCityToDB(@PathVariable String cityName, @PathVariable String latitude, @PathVariable String longitude){
-        City city = new City(null, cityName, latitude, longitude);
+    @GetMapping("/addCity/{cityName}/{country}")
+    public void addCityToDB(@PathVariable String cityName, @PathVariable String country){
+        final var city = cityClient.getCityWithLatitudeAndLongitudeCoordinates(cityName, country);
         cityService.addCity(city);
     }
 

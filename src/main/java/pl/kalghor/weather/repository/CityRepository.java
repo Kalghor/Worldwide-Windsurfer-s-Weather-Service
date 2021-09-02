@@ -6,4 +6,5 @@ import pl.kalghor.weather.model.City;
 
 @Repository
 public interface CityRepository extends CrudRepository<City, Long> {
+    City findCityByName(String name);
 }

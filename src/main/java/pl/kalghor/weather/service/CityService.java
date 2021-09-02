@@ -17,7 +17,7 @@ public class CityService {
 
     public Set<City> getCities(){
         Set<City> cities = new HashSet<>();
-        Iterable<City> all = cityRepository.findAll();
+        var all = cityRepository.findAll();
         all.forEach(cities::add);
         return cities;
     }

@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 import pl.kalghor.weather.converter.WeatherConverter;
 import pl.kalghor.weather.model.City;
 import pl.kalghor.weather.model.Weather;
-import pl.kalghor.weather.web.client.WeatherClient;
-import pl.kalghor.weather.web.dto.DataDto;
-import pl.kalghor.weather.web.dto.WeatherDto;
+import pl.kalghor.weather.integration.weatherbit.client.WeatherClient;
+import pl.kalghor.weather.integration.weatherbit.dto.DataDto;
+import pl.kalghor.weather.integration.weatherbit.dto.WeatherDto;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 @Service
 public class WeatherService {
 
-    private WeatherClient weatherClient;
-    private WeatherConverter weatherConverter;
+    private final WeatherClient weatherClient;
+    private final WeatherConverter weatherConverter;
 
 
     public WeatherService(WeatherClient weatherClient, WeatherConverter weatherConverter) {
@@ -27,11 +27,11 @@ public class WeatherService {
     }
 
     public Weather getBestWeatherToday(Set<City> cities, LocalDate date) {
-        Set<WeatherDto> weatherForCities = weatherClient.getWeatherForCities(cities);
+        final var weatherForCities = weatherClient.getWeatherForCities(cities);
         for (WeatherDto weatherDto : weatherForCities) {
             weatherDto.setData(getWeatherForDate(weatherDto.getData(), date));
         }
-        Set<Weather> weatherSet = weatherConverter.convertToModel(weatherForCities);
+        final Set<Weather> weatherSet = weatherConverter.convertToModel(weatherForCities);
         return getCityWithBestWeatherConditions(weatherSet);
     }
 
@@ -40,13 +40,13 @@ public class WeatherService {
     }
 
     public Weather getCityWithBestWeatherConditions(Set<Weather> weatherSet) {
-        List<Weather> citiesWithGoodWeatherConditions = weatherSet.stream()
-                .filter(weather -> weather.getWind_spd() >= 5 && weather.getWind_spd() <= 18)
+        final var citiesWithGoodWeatherConditions = weatherSet.stream()
+                .filter(weather -> weather.getWindSpd() >= 5 && weather.getWindSpd() <= 18)
                 .filter(weather -> weather.getTemp() >= 5 && weather.getTemp() <= 35)
                 .collect(Collectors.toList());
         if (citiesWithGoodWeatherConditions.size() > 0) {
             return citiesWithGoodWeatherConditions.stream()
-                    .max(Comparator.comparingDouble(o -> bestWeatherConditions(o.getWind_spd(), o.getTemp())))
+                    .max(Comparator.comparingDouble(o -> bestWeatherConditions(o.getWindSpd(), o.getTemp())))
                     .get();
         } else {
             return new Weather();

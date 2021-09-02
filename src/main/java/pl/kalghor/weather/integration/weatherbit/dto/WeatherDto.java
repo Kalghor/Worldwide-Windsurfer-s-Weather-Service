@@ -1,4 +1,4 @@
-package pl.kalghor.weather.web.dto;
+package pl.kalghor.weather.integration.weatherbit.dto;
 
 import lombok.*;
 
