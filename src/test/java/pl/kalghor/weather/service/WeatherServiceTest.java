@@ -49,7 +49,7 @@ class WeatherServiceTest {
         dataDtoList.add(dataDto2);
         dataDtoList.add(dataDto3);
 
-        var result = weatherService.getWeatherForDate(dataDtoList, LocalDate.of(2021, 07, 14));
+        var result = weatherService.getWeatherForDate(dataDtoList, LocalDate.of(2021, 07, 12));
 
         assertEquals(1, result.size());
         assertEquals("2021-07-12", result.get(0).getValid_date());
